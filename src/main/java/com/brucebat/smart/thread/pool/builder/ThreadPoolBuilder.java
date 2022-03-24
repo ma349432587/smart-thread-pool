@@ -53,7 +53,7 @@ public class ThreadPoolBuilder implements Serializable {
      *
      * @return 线程池创建者对象
      */
-    public ThreadPoolBuilder builder() {
+    public static ThreadPoolBuilder builder() {
         return new ThreadPoolBuilder();
     }
 
