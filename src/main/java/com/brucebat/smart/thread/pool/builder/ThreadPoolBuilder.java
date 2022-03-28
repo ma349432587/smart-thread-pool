@@ -143,7 +143,7 @@ public class ThreadPoolBuilder implements Serializable {
         ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, this.timeUnit, this.workQueue, this.threadFactory, this.rejectedExecutionHandler);
         if (Objects.nonNull(threadPoolRegistrar)) {
             // TODO 是否应该将注册的逻辑放置在这里
-            threadPoolRegistrar.register(this.appName, this.threadPoolName);
+            threadPoolRegistrar.register(this.appName, this.threadPoolName, threadPoolExecutor);
         }
         return threadPoolExecutor;
     }

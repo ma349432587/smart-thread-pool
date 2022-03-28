@@ -1,4 +1,4 @@
-package com.brucebat.smart.thread.pool.config;
+package com.brucebat.smart.thread.pool.common;
 
 import com.brucebat.smart.thread.pool.factory.DefaultThreadFactory;
 

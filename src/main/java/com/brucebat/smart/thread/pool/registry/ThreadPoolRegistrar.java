@@ -1,8 +1,9 @@
 package com.brucebat.smart.thread.pool.registry;
 
-import com.brucebat.smart.thread.pool.config.ThreadPoolConfig;
+import com.brucebat.smart.thread.pool.common.ThreadPoolConfig;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 线程池注册器，用于将线程池信息注册到动态配置中心，
@@ -17,10 +18,11 @@ public interface ThreadPoolRegistrar {
     /**
      * 根据应用名称和线程池名称进行线程池注册，并注册动态监听器
      *
-     * @param appName        应用名称
-     * @param threadPoolName 线程池名称
+     * @param appName            应用名称
+     * @param threadPoolName     线程池名称
+     * @param threadPoolExecutor 待注册线程池
      */
-    void register(String appName, String threadPoolName);
+    void register(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor);
 
     /**
      * 根据应用名称和线程池名称进行线程池注销

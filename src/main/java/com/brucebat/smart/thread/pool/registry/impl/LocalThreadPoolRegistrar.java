@@ -1,9 +1,10 @@
 package com.brucebat.smart.thread.pool.registry.impl;
 
-import com.brucebat.smart.thread.pool.config.ThreadPoolConfig;
+import com.brucebat.smart.thread.pool.common.ThreadPoolConfig;
 import com.brucebat.smart.thread.pool.registry.ThreadPoolRegistrar;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 默认线程池注册器--使用本地缓存作为线程池注册信息的存储空间
@@ -12,11 +13,10 @@ import java.util.List;
  * @version 1.0
  * @since Created at 2022/3/28 11:31 AM
  */
-public class DefaultThreadPoolRegistrar implements ThreadPoolRegistrar {
-
+public class LocalThreadPoolRegistrar implements ThreadPoolRegistrar {
 
     @Override
-    public void register(String appName, String threadPoolName) {
+    public void register(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor) {
 
     }
 
