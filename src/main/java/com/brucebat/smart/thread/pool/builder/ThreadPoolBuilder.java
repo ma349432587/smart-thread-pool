@@ -1,6 +1,7 @@
 package com.brucebat.smart.thread.pool.builder;
 
 import com.brucebat.smart.thread.pool.factory.DefaultThreadFactory;
+import com.brucebat.smart.thread.pool.registry.ThreadPoolRegistrar;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,6 +15,15 @@ import java.util.concurrent.*;
  * @since Created at 2022/3/23 11:05 AM
  */
 public class ThreadPoolBuilder implements Serializable {
+
+    /**
+     * 应用名称
+     */
+    private String appName;
+    /**
+     * 线程池名称
+     */
+    private String threadPoolName;
     /**
      * 线程池中核心线程数
      */
@@ -42,6 +52,11 @@ public class ThreadPoolBuilder implements Serializable {
      * 线程工程
      */
     private ThreadFactory threadFactory;
+
+    /**
+     * 线程池注册器
+     */
+    private ThreadPoolRegistrar threadPoolRegistrar;
 
     private static final int DEFAULT_QUEUE_CAPACITY = 1000;
 
@@ -92,6 +107,11 @@ public class ThreadPoolBuilder implements Serializable {
         return this;
     }
 
+    public ThreadPoolBuilder threadPoolRegistrar(ThreadPoolRegistrar threadPoolRegistrar) {
+        this.threadPoolRegistrar = threadPoolRegistrar;
+        return this;
+    }
+
     /**
      * 进行线程池的实际创建
      *
@@ -120,6 +140,11 @@ public class ThreadPoolBuilder implements Serializable {
         if (null == this.threadFactory) {
             this.threadFactory = new DefaultThreadFactory(null, null);
         }
-        return new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, this.timeUnit, this.workQueue, this.threadFactory, this.rejectedExecutionHandler);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(this.corePoolSize, this.maxPoolSize, this.keepAliveTime, this.timeUnit, this.workQueue, this.threadFactory, this.rejectedExecutionHandler);
+        if (Objects.nonNull(threadPoolRegistrar)) {
+            // TODO 是否应该将注册的逻辑放置在这里
+            threadPoolRegistrar.register(this.appName, this.threadPoolName);
+        }
+        return threadPoolExecutor;
     }
 }

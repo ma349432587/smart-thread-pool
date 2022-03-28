@@ -14,6 +14,16 @@ import java.util.concurrent.*;
  * @since Created at 2022/3/17 5:24 PM
  */
 public class ThreadPoolConfig implements Serializable {
+
+    /**
+     * 应用名称
+     */
+    private String appName;
+
+    /**
+     * 线程池名称
+     */
+    private String threadPoolName;
     /**
      * 线程池中核心线程数
      */
@@ -42,6 +52,9 @@ public class ThreadPoolConfig implements Serializable {
      * 线程工程
      */
     private ThreadFactory threadFactory;
+
+    public ThreadPoolConfig() {
+    }
 
     /**
      * 创建线程池配置信息对象
@@ -108,6 +121,22 @@ public class ThreadPoolConfig implements Serializable {
         this.threadFactory = new DefaultThreadFactory(threadNamePrefix, threadGroup);
     }
 
+    public String getAppName() {
+        return appName;
+    }
+
+    public void setAppName(String appName) {
+        this.appName = appName;
+    }
+
+    public String getThreadPoolName() {
+        return threadPoolName;
+    }
+
+    public void setThreadPoolName(String threadPoolName) {
+        this.threadPoolName = threadPoolName;
+    }
+
     public Integer getCorePoolSize() {
         return corePoolSize;
     }
@@ -148,6 +177,10 @@ public class ThreadPoolConfig implements Serializable {
         this.workQueue = workQueue;
     }
 
+    public String getWorkQueueName() {
+        return this.workQueue.getClass().getName();
+    }
+
     public RejectedExecutionHandler getRejectedExecutionHandler() {
         return rejectedExecutionHandler;
     }
@@ -156,11 +189,19 @@ public class ThreadPoolConfig implements Serializable {
         this.rejectedExecutionHandler = rejectedExecutionHandler;
     }
 
+    public String getRejectedExecutionHandlerName() {
+        return this.rejectedExecutionHandler.getClass().getName();
+    }
+
     public ThreadFactory getThreadFactory() {
         return threadFactory;
     }
 
     public void setThreadFactory(ThreadFactory threadFactory) {
         this.threadFactory = threadFactory;
+    }
+
+    public String getThreadPoolFactoryName() {
+        return this.threadFactory.getClass().getName();
     }
 }

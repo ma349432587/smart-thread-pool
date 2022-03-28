@@ -14,8 +14,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class App {
     public static void main(String[] args) {
-        System.out.println(1 << 10);
-        System.out.println(~(1 << 10));
         ThreadPoolExecutor threadPoolExecutor = ThreadPoolBuilder.builder().corePoolSize(5).maxPoolSize(10).workQueue(new LinkedBlockingQueue<>(100)).keepAliveTime(10).build();
         // 获取当前线程池内的线程数量
         System.out.println(threadPoolExecutor.getPoolSize());
@@ -25,5 +23,8 @@ public class App {
         System.out.println(threadPoolExecutor.getTaskCount());
         // 获取当前已经执行完成的任务总数
         System.out.println(threadPoolExecutor.getCompletedTaskCount());
+        System.out.println(threadPoolExecutor.getRejectedExecutionHandler().getClass().getName());
+        System.out.println(threadPoolExecutor.getThreadFactory().getClass().getName());
+        System.out.println(threadPoolExecutor.getQueue().getClass().getName());
     }
 }
