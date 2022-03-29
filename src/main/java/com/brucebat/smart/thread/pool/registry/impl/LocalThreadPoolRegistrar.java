@@ -2,6 +2,7 @@ package com.brucebat.smart.thread.pool.registry.impl;
 
 import com.brucebat.smart.thread.pool.common.ThreadPoolConfig;
 import com.brucebat.smart.thread.pool.registry.ThreadPoolRegistrar;
+import com.brucebat.smart.thread.pool.storage.LocalCacheStorageService;
 
 import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -14,6 +15,14 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @since Created at 2022/3/28 11:31 AM
  */
 public class LocalThreadPoolRegistrar implements ThreadPoolRegistrar {
+
+    private final LocalCacheStorageService localCacheStorageService;
+
+    private static final String KEY_SPLIT = "#";
+
+    public LocalThreadPoolRegistrar(LocalCacheStorageService localCacheStorageService) {
+        this.localCacheStorageService = localCacheStorageService;
+    }
 
     @Override
     public void register(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor) {

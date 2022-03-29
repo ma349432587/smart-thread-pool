@@ -25,7 +25,7 @@ public class ThreadPoolContainer {
     public static void addThreadPool(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor) {
         String threadPoolKey = appName + NAME_SPLIT + threadPoolName;
         if (THREAD_POOL_CONTAINER.containsKey(threadPoolKey)) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("当前应用中已经存在该线程池名称: " + threadPoolName);
         }
         THREAD_POOL_CONTAINER.put(threadPoolKey, threadPoolExecutor);
     }
