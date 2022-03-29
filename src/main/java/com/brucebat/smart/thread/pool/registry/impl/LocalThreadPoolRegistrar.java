@@ -1,11 +1,8 @@
 package com.brucebat.smart.thread.pool.registry.impl;
 
 import com.brucebat.smart.thread.pool.common.ThreadPoolConfig;
-import com.brucebat.smart.thread.pool.registry.ThreadPoolRegistrar;
+import com.brucebat.smart.thread.pool.registry.AbstractThreadPoolRegistrar;
 import com.brucebat.smart.thread.pool.storage.LocalCacheStorageService;
-
-import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * 默认线程池注册器--使用本地缓存作为线程池注册信息的存储空间
@@ -14,33 +11,26 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @version 1.0
  * @since Created at 2022/3/28 11:31 AM
  */
-public class LocalThreadPoolRegistrar implements ThreadPoolRegistrar {
+public class LocalThreadPoolRegistrar extends AbstractThreadPoolRegistrar {
 
     private final LocalCacheStorageService localCacheStorageService;
-
-    private static final String KEY_SPLIT = "#";
 
     public LocalThreadPoolRegistrar(LocalCacheStorageService localCacheStorageService) {
         this.localCacheStorageService = localCacheStorageService;
     }
 
     @Override
-    public void register(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor) {
-
+    protected void registerToStorage(String threadPoolKey, ThreadPoolConfig threadPoolConfig) {
+        localCacheStorageService.put(threadPoolKey, threadPoolConfig);
     }
 
     @Override
-    public void deregister(String appName, String threadPoolName) {
-
+    protected void deregisterFromStorage(String threadPoolKey) {
+        localCacheStorageService.delete(threadPoolKey);
     }
 
     @Override
-    public ThreadPoolConfig getConfig(String appName, String threadPoolName) {
-        return null;
-    }
-
-    @Override
-    public List<ThreadPoolConfig> getAllThreadPools(String appName) {
-        return null;
+    protected ThreadPoolConfig getRemoteConfig(String threadPoolKey) {
+        return localCacheStorageService.get(threadPoolKey);
     }
 }
