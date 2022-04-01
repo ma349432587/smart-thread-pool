@@ -35,7 +35,7 @@ public class ThreadPoolConfig implements Serializable {
     /**
      * 空闲线程存活时间，此处空闲线程指的是线程池内数量超过corePoolSize部分的线程
      */
-    private Integer keepAliveTime;
+    private Long keepAliveTime;
     /**
      * 线程存活时间的单位
      */
@@ -67,7 +67,7 @@ public class ThreadPoolConfig implements Serializable {
      * @param rejectedExecutionHandler 线程池中线程数量和工作队列数量均达到最大时的拒绝策略执行器
      * @param threadFactory            线程创建工厂
      */
-    public ThreadPoolConfig(Integer corePoolSize, Integer maxPoolSize, Integer keepAliveTime, TimeUnit timeUnit, BlockingQueue<Runnable> workQueue,
+    public ThreadPoolConfig(Integer corePoolSize, Integer maxPoolSize, Long keepAliveTime, TimeUnit timeUnit, BlockingQueue<Runnable> workQueue,
                             RejectedExecutionHandler rejectedExecutionHandler, ThreadFactory threadFactory) {
         this.corePoolSize = corePoolSize;
         this.maxPoolSize = maxPoolSize;
@@ -89,7 +89,7 @@ public class ThreadPoolConfig implements Serializable {
      * @param rejectedExecutionHandler 线程池中线程数量和工作队列数量均达到最大时的拒绝策略执行器
      * @param threadFactory            线程创建工厂
      */
-    public ThreadPoolConfig(Integer corePoolSize, Integer maxPoolSize, Integer keepAliveTime, TimeUnit timeUnit, Integer queueCapacity,
+    public ThreadPoolConfig(Integer corePoolSize, Integer maxPoolSize, Long keepAliveTime, TimeUnit timeUnit, Integer queueCapacity,
                             RejectedExecutionHandler rejectedExecutionHandler, ThreadFactory threadFactory) {
         this.corePoolSize = corePoolSize;
         this.maxPoolSize = maxPoolSize;
@@ -111,7 +111,7 @@ public class ThreadPoolConfig implements Serializable {
      * @param threadNamePrefix         线程名称前缀
      * @param threadGroup              线程组
      */
-    public ThreadPoolConfig(Integer corePoolSize, Integer maxPoolSize, Integer keepAliveTime, TimeUnit timeUnit,
+    public ThreadPoolConfig(Integer corePoolSize, Integer maxPoolSize, Long keepAliveTime, TimeUnit timeUnit,
                             RejectedExecutionHandler rejectedExecutionHandler, String threadNamePrefix, ThreadGroup threadGroup) {
         this.corePoolSize = corePoolSize;
         this.maxPoolSize = maxPoolSize;
@@ -153,11 +153,11 @@ public class ThreadPoolConfig implements Serializable {
         this.maxPoolSize = maxPoolSize;
     }
 
-    public Integer getKeepAliveTime() {
+    public Long getKeepAliveTime() {
         return keepAliveTime;
     }
 
-    public void setKeepAliveTime(Integer keepAliveTime) {
+    public void setKeepAliveTime(Long keepAliveTime) {
         this.keepAliveTime = keepAliveTime;
     }
 

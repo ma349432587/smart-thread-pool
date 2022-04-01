@@ -1,5 +1,6 @@
 package com.brucebat.smart.thread.pool.common;
 
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -39,6 +40,32 @@ public class ThreadPoolContainer {
      */
     public static ThreadPoolExecutor getThreadPool(String appName, String threadPoolName) {
         return THREAD_POOL_CONTAINER.get(appName + NAME_SPLIT + threadPoolName);
+    }
+
+    /**
+     * 根据进行线程池内部属性调整
+     *
+     * @param appName        待处理线程池应用名称
+     * @param threadPoolName 待处理线程池名称
+     * @param corePoolSize   待修改核心线程数
+     * @param maxPoolSize    待修改最大线程数
+     * @param workQueueSize  待修改工作队列长度
+     */
+    public static void modifyThreadPool(String appName, String threadPoolName, Integer corePoolSize, Integer maxPoolSize, Integer workQueueSize) {
+        // 进行线程池修改
+    }
+
+    /**
+     * 根据进行线程池内部属性调整
+     *
+     * @param appName        待处理线程池应用名称
+     * @param threadPoolName 待处理线程池名称
+     * @param corePoolSize   待修改核心线程数
+     * @param maxPoolSize    待修改最大线程数
+     * @param workQueue      待修改工作队列
+     */
+    public static void modifyThreadPool(String appName, String threadPoolName, Integer corePoolSize, Integer maxPoolSize, BlockingQueue<Runnable> workQueue) {
+        // 进行线程池修改
     }
 
     /**

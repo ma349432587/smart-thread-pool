@@ -6,6 +6,7 @@ import com.brucebat.smart.thread.pool.storage.LocalCacheStorageService;
 
 /**
  * 默认线程池注册器--使用本地缓存作为线程池注册信息的存储空间
+ * TODO 思考是否真的需要使用本地缓存来进行对应信息的存储
  *
  * @author brucebat
  * @version 1.0
@@ -13,11 +14,7 @@ import com.brucebat.smart.thread.pool.storage.LocalCacheStorageService;
  */
 public class LocalThreadPoolRegistrar extends AbstractThreadPoolRegistrar {
 
-    private final LocalCacheStorageService localCacheStorageService;
-
-    public LocalThreadPoolRegistrar(LocalCacheStorageService localCacheStorageService) {
-        this.localCacheStorageService = localCacheStorageService;
-    }
+    private final LocalCacheStorageService localCacheStorageService = LocalCacheStorageService.getInstance();
 
     @Override
     protected void registerToStorage(String threadPoolKey, ThreadPoolConfig threadPoolConfig) {
@@ -30,7 +27,8 @@ public class LocalThreadPoolRegistrar extends AbstractThreadPoolRegistrar {
     }
 
     @Override
-    protected ThreadPoolConfig getRemoteConfig(String threadPoolKey) {
-        return localCacheStorageService.get(threadPoolKey);
+    protected void refreshToStorage(String threadPoolKey, ThreadPoolConfig threadPoolConfig) {
+        localCacheStorageService.put(threadPoolKey, threadPoolConfig);
     }
+
 }

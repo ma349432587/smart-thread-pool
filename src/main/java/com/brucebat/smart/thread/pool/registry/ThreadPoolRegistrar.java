@@ -33,19 +33,11 @@ public interface ThreadPoolRegistrar {
     void deregister(String appName, String threadPoolName);
 
     /**
-     * 根据应用名称和线程池名称获取线程池配置信息
+     * 根据应用名称和线程池名称进行线程池配置信息更新
      *
-     * @param appName        应用名称
-     * @param threadPoolName 线程池名称
-     * @return 线程池配置信息
+     * @param appName            应用名称
+     * @param threadPoolName     线程池名称
+     * @param threadPoolExecutor 待更新线程池
      */
-    ThreadPoolConfig getConfig(String appName, String threadPoolName);
-
-    /**
-     * 根据应用名称获取所有线程池配置信息
-     *
-     * @param appName 应用名称
-     * @return 线程池配置信息
-     */
-    List<ThreadPoolConfig> getAllThreadPools(String appName);
+    void refresh(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor);
 }

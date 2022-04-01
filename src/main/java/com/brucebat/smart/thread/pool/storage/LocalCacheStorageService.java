@@ -5,7 +5,7 @@ import com.brucebat.smart.thread.pool.listener.impl.LocalThreadPoolConfigListene
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
-import java.util.List;
+import java.util.Objects;
 
 /**
  * 本地缓存保存服务
@@ -16,10 +16,26 @@ import java.util.List;
  */
 public class LocalCacheStorageService {
 
-    private final Cache<String, ThreadPoolConfig> cacheContainer;
+    /**
+     * 这里需要创建一个应用内全局唯一的缓存管理器
+     */
+    private final Cache<String, ThreadPoolConfig> CACHE_CONTAINER;
 
-    public LocalCacheStorageService() {
-        this.cacheContainer = CacheBuilder.newBuilder().removalListener(new LocalThreadPoolConfigListener()).build();
+    private volatile static LocalCacheStorageService localCacheStorageService;
+
+    private LocalCacheStorageService() {
+        this.CACHE_CONTAINER = CacheBuilder.newBuilder().removalListener(new LocalThreadPoolConfigListener()).build();
+    }
+
+    public static LocalCacheStorageService getInstance() {
+        if (Objects.isNull(localCacheStorageService)) {
+            synchronized (LocalCacheStorageService.class) {
+                if (Objects.isNull(localCacheStorageService)) {
+                    localCacheStorageService = new LocalCacheStorageService();
+                }
+            }
+        }
+        return localCacheStorageService;
     }
 
     /**
@@ -29,7 +45,7 @@ public class LocalCacheStorageService {
      * @param threadPoolConfig 线程池配置信息
      */
     public void put(String key, ThreadPoolConfig threadPoolConfig) {
-        this.cacheContainer.put(key, threadPoolConfig);
+        CACHE_CONTAINER.put(key, threadPoolConfig);
     }
 
     /**
@@ -38,7 +54,7 @@ public class LocalCacheStorageService {
      * @param key 线程池配置本地缓存key
      */
     public void delete(String key) {
-        this.cacheContainer.invalidate(key);
+        CACHE_CONTAINER.invalidate(key);
     }
 
     /**
@@ -48,6 +64,6 @@ public class LocalCacheStorageService {
      * @return 线程池配置信息
      */
     public ThreadPoolConfig get(String key) {
-        return this.cacheContainer.getIfPresent(key);
+        return CACHE_CONTAINER.getIfPresent(key);
     }
 }

@@ -1,11 +1,14 @@
 package com.brucebat.smart.thread.pool.registry;
 
 import com.brucebat.smart.thread.pool.common.ThreadPoolConfig;
+import com.brucebat.smart.thread.pool.common.ThreadPoolContainer;
+import com.brucebat.smart.thread.pool.common.utils.ThreadPoolUtils;
 
-import java.util.List;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
+ * 抽象线程池注册器
+ *
  * @author brucebat
  * @version 1.0
  * @since Created at 2022/3/29 11:21 AM
@@ -24,8 +27,8 @@ public abstract class AbstractThreadPoolRegistrar implements ThreadPoolRegistrar
      */
     @Override
     public void register(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor) {
-        ThreadPoolConfig threadPoolConfig = new ThreadPoolConfig();
-        // TODO 根据线程池进行线程池配置信息组装
+        ThreadPoolContainer.addThreadPool(appName, threadPoolName, threadPoolExecutor);
+        ThreadPoolConfig threadPoolConfig = ThreadPoolUtils.assembleConfig(appName, threadPoolName, threadPoolExecutor);
         registerToStorage(appName + KEY_SPLIT + threadPoolName, threadPoolConfig);
     }
 
@@ -37,33 +40,14 @@ public abstract class AbstractThreadPoolRegistrar implements ThreadPoolRegistrar
      */
     @Override
     public void deregister(String appName, String threadPoolName) {
+        ThreadPoolContainer.removeThreadPool(appName, threadPoolName);
         deregisterFromStorage(appName + KEY_SPLIT + threadPoolName);
     }
 
-    /**
-     * 根据线程池应用名称和线程池名称获取线程池配置信息
-     *
-     * @param appName        线程池应用名称
-     * @param threadPoolName 线程池名称
-     * @return 线程池配置信息
-     */
     @Override
-    public ThreadPoolConfig getConfig(String appName, String threadPoolName) {
-        String threadPoolKey = appName + KEY_SPLIT + threadPoolName;
-        ThreadPoolConfig remoteConfig = getRemoteConfig(threadPoolKey);
-        // 如果远程没有获取到则获取本地的配置信息
-        return null;
-    }
-
-    /**
-     * 获取所有的线程池配置信息
-     *
-     * @param appName 获取当前pod当中所有线程池的配置信息
-     * @return 获取所有线程池配置信息
-     */
-    @Override
-    public List<ThreadPoolConfig> getAllThreadPools(String appName) {
-        return null;
+    public void refresh(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor) {
+        ThreadPoolConfig threadPoolConfig = ThreadPoolUtils.assembleConfig(appName, threadPoolName, threadPoolExecutor);
+        refreshToStorage(appName + KEY_SPLIT + threadPoolName, threadPoolConfig);
     }
 
     /**
@@ -82,10 +66,11 @@ public abstract class AbstractThreadPoolRegistrar implements ThreadPoolRegistrar
     protected abstract void deregisterFromStorage(String threadPoolKey);
 
     /**
-     * 根据线程池key获取注册中心中线程池配置信息
+     * 根据线程池key和待更新线程池配置信息进行远程存储中的线程池配置信息更新
      *
-     * @param threadPoolKey 线程池对应key
-     * @return 线程池配置信息
+     * @param threadPoolKey    线程池key
+     * @param threadPoolConfig 线程池配置信息
      */
-    protected abstract ThreadPoolConfig getRemoteConfig(String threadPoolKey);
+    protected abstract void refreshToStorage(String threadPoolKey, ThreadPoolConfig threadPoolConfig);
+
 }
