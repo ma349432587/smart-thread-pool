@@ -20,13 +20,14 @@ public class ThreadPoolContainer {
     /**
      * 进行线程池添加
      *
-     * @param appName        待添加线程池应用名称
-     * @param threadPoolName 待添加线程池明名称
+     * @param appName            待添加线程池应用名称
+     * @param threadPoolName     待添加线程池明名称
+     * @param threadPoolExecutor 待添加线程池
      */
     public static void addThreadPool(String appName, String threadPoolName, ThreadPoolExecutor threadPoolExecutor) {
         String threadPoolKey = appName + NAME_SPLIT + threadPoolName;
         if (THREAD_POOL_CONTAINER.containsKey(threadPoolKey)) {
-            throw new IllegalArgumentException("当前应用中已经存在该线程池名称: " + threadPoolName);
+            throw new IllegalArgumentException("The current threadPoolName " + "[" + threadPoolName + "]" + " already exists. ");
         }
         THREAD_POOL_CONTAINER.put(threadPoolKey, threadPoolExecutor);
     }
