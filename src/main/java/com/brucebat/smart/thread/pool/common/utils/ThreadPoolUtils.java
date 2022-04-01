@@ -9,6 +9,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 线程池工具类
+ *
  * @author brucebat
  * @version 1.0
  * @since Created at 2022/4/1 10:39 AM
@@ -68,6 +70,6 @@ public class ThreadPoolUtils {
     public static void modifyThreadPool(ThreadPoolExecutor threadPoolExecutor, Integer corePoolSize, Integer maxPoolSize, BlockingQueue<Runnable> workQueue) {
         threadPoolExecutor.setCorePoolSize(corePoolSize);
         threadPoolExecutor.setMaximumPoolSize(maxPoolSize);
-        // 进行阻塞队列内的待处理线程迁移
+        // TODO 进行阻塞队列内的待处理线程迁移
     }
 }
