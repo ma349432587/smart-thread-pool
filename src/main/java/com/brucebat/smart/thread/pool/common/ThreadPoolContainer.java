@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 线程池工厂类
+ * 线程池容器类
  *
  * @author brucebat
  * @version 1.0
